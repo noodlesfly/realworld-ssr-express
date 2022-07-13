@@ -1,3 +1,5 @@
+const { log } = console
+const { User } = require('../model')
 exports.login = async (req, res, next) => {
     try {
         res.send('post /users/login')
@@ -9,7 +11,11 @@ exports.login = async (req, res, next) => {
 
 exports.register = async (req, res, next) => {
     try {
-        res.send('post /users')
+        const user = new User(req.body.user)
+        await user.save()
+        res.status(201).json({
+            user
+        })
     } catch (error) {
         next(error)
     }
