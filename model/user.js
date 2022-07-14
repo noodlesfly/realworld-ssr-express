@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const baseModel = require('./base-model')
+const md5 = require('../utils/md5')
+
 const userSchema = new mongoose.Schema({
     ...baseModel,
     "username": {
@@ -12,7 +14,10 @@ const userSchema = new mongoose.Schema({
     },
     "password": {
         type: String,
-        required: true
+        required: true,
+        set: value => md5(value),
+        // 取的时候屏蔽
+        select: false
     },
     "bio": {
         type: String,
